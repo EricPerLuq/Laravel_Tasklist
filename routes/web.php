@@ -54,3 +54,24 @@ Route::delete('/task/{task}', function (Task $task) {
 
     return redirect('/');
 });
+
+
+/**
+ * Done Task
+ */
+Route::put('/Update/{task}', function (Task $task){
+    $task->state = true;
+    $task->save();
+
+    return redirect('/');
+});
+Route::put('/Updatefalse/{task}', function (Task $task){
+    $task->state = false;
+    $task->save();
+
+    return redirect('/');
+});
+
+
+
+

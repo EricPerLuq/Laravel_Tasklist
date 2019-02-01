@@ -38,21 +38,22 @@
     @if (count($tasks) > 0)
         <div class="panel panel-default">
             <div class="panel-heading">
-                Current Tasks
+                Current tasks:
             </div>
-
+            
             <div class="panel-body">
                 <table class="table table-striped task-table">
 
                     <!-- Table Headings -->
                     <thead>
-                        <th>Task</th>
+                        <th>Task to do:</th>
                         <th>&nbsp;</th>
                     </thead>
 
                     <!-- Table Body -->
                     <tbody>
                         @foreach ($tasks as $task)
+                        @if ($task->state == 0)
                             <tr>
                                 <!-- Task Name -->
                                 <td class="table-text">
@@ -66,19 +67,68 @@
                                             <form action="{{ url('task/'.$task->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-
+                                                    
                                                 <button type="submit" class="btn btn-danger">
                                                     <i class="fa fa-trash"></i> Delete
+                                                </button>
+                                              
+                                            </form>
+                                            <!-- Done Button -->
+                                            <form action="{{ url('Update/'.$task->id)}}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('PUT') }}
+                                                <button type="submit">
+                                                    <i class="fa fa-trash"></i>Done
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
                                 </td>
                             </tr>
+                        @endif
+                        @endforeach
+                        <thead>
+                            <th>Task done:</th>
+                            <th>&nbsp;</th>
+                        </thead>
+                        @foreach ($tasks as $task)
+                        @if ($task->state == 1)
+                            <tr>
+                                <!-- Task Name -->
+                                <td class="table-text">
+                                    <div>{{ $task->name }}</div>
+                                </td>
+
+                                <td>
+                                    <tr>
+                                        <!-- Delete Button -->
+                                        <td>
+                                            <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                    
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </button>
+                                              
+                                            </form>
+                                            <!-- Done Button -->
+                                            <form action="{{ url('Updatefalse/'.$task->id)}}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('PUT') }}
+                                                <button type="submit">
+                                                    <i class="fa fa-trash"></i>To Do
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </td>
+                            </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </div> 
         </div>
     @endif
 @endsection
